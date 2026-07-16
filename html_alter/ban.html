@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERROR 404</title>
+
+    <style>
+        body{
+            background-color: #050000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Courier New', Courier, monospace;
+            color: red;
+            overflow: hidden;
+        }
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 100;
+        }
+        #terminal {
+            position: absolute;
+            color: #0f0;
+            font-size: 18px;
+            text-align: left;
+            width: 90%;
+            max-width: 700px;
+            text-shadow: 0 0 5px #0f0;
+            line-height: 1.5;
+            display: block;
+        }
+        .container{
+            border: 3px solid red;
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            background: rgba(20, 0, 0, 0.9);
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+            display: none; 
+            position: relative;
+            z-index: 10;
+        }
+        h1 {
+            color: red; 
+            font-size: 45px;
+            margin-top: 0;
+            text-shadow: 3px 0px 0px rgba(0, 255, 255, 0.6), -3px 0px 0px rgba(255, 0, 255, 0.6);
+            animation: glitchViolento 0.2s infinite;
+        }
+        .animacion-ban-aparicion {
+            animation: aparicionCritica 0.3s 3, latido 2s infinite alternate 0.5s;
+        }
+        .banned-info {
+            color: red; 
+            font-size: 24px;
+            display: block; 
+            margin-top: 15px;
+            position: relative;
+            animation: jitterSutil 0.2s infinite;
+        }
+        .case-id-block {
+            color: red;
+            opacity: 1;
+            animation: parpadeoBloque 0.15s infinite;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        @keyframes glitchViolento {
+            0% { transform: translate(0) }
+            20% { transform: translate(-3px, 3px) }
+            40% { transform: translate(-3px, -3px) }
+            60% { transform: translate(3px, 3px) }
+            80% { transform: translate(3px, -3px) }
+            100% { transform: translate(0) }
+        }
+        @keyframes aparicionCritica {
+            0%, 100% { opacity: 1; transform: scale(1) skewX(0deg); }
+            50% { opacity: 0; transform: scale(1.1) skewX(-10deg); filter: invert(1); }
+        }
+        @keyframes latido {
+            0% { border-color: red; box-shadow: 0 0 10px red; }
+            100% { border-color: darkred; box-shadow: 0 0 40px darkred; }
+        }
+        @keyframes jitterSutil {
+            0% { transform: translate(0); text-shadow: 0 0 5px rgba(255,0,0,0.5); }
+            50% { transform: translate(-1px, 1px); text-shadow: 1px -1px 0 rgba(0, 255, 255, 0.4); }
+            100% { transform: translate(1px, -1px); text-shadow: -1px 1px 0 rgba(255, 0, 255, 0.4); }
+        }
+        @keyframes parpadeoBloque {
+            0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(255,0,0,1); }
+            50% { opacity: 0; text-shadow: 0 0 0 rgba(255,0,0,0); }
+        }
+        p { color: #ff4444; font-size: 18px; line-height: 1.6; }
+        .ip { color: white; font-weight: bold; font-size: 20px;}
+        .rojo-fuerte { color: #ff0000; text-shadow: 0 0 8px red; }
+    </style>
+</head>
+<body>
+    
+    <div id="terminal"></div>
+
+    <div>
+        <audio id="musica" src="../ost/sayo-nara_ban.mp3" loop></audio>
+    </div>
+
+    <div class="container" id="cajaBan">
+        <h1>ACCOUNT BANNED</h1>
+        <p>Your account and IP address have been permanently banned from PvZ2 Reloaded.</p>
+        <p class="ip">IP DETECTADA: <span id="ip">Rastreando...</span></p>
+        <p>Reason: <strong class="rojo-fuerte">Unauthorized modification of game files</strong></p>
+        
+        <p class="banned-info">CASE ID: #<span class="case-id-dynamic" id="dynamicID">00</span><span class="case-id-block">██</span>-BANNED</p>
+    </div>
+
+    <script>
+        function rastrearIPFalsa(){
+            const octeto1=Math.floor(Math.random()*240)+11;
+            const octeto2 = Math.floor(Math.random()*255);
+            const ipCensurada = `${octeto1}.${octeto2}.███.███`;
+
+            setTimeout(() => {
+                const spanIP = document.getElementById('ip');
+                spanIP.textContent = ipCensurada;
+                spanIP.style.textShadow = "0 0 10px red";
+                spanIP.style.color = "#ff4444";
+            }, 800);
+        }
+        rastrearIPFalsa();
+
+        const terminal = document.getElementById('terminal');
+        const cajaBan = document.getElementById('cajaBan');
+        const dynamicID = document.getElementById('dynamicID');
+        const secuencia = [
+            "> Estableciendo conexión con el servidor Zomburbia...",
+            "> Verificando integridad del cliente...",
+            "> Escaneando directorio: /android/data/pvz2reloaded...",
+            "> ADVERTENCIA: Hash de archivos alterado.",
+            "> Extrayendo identificador de dispositivo...",
+            "> Localizando nodo de IP...",
+            "> ALERTA CRÍTICA: Intento de vulneración detectado.",
+            "> Ejecutando protocolo de bloqueo de emergencia 0x88A...",
+            "> TE VEOOO...",
+            "> TE VEOOO...",
+            "> TE VEOOO...",
+            "> TE TENGO..."
+        ];
+        let lineaActual = 0;
+        let caseIDInterval;
+
+        function escribirConsola() {
+            if (lineaActual < secuencia.length) {
+                const p = document.createElement('div');
+                p.textContent = secuencia[lineaActual];
+                if(secuencia[lineaActual].includes("ADVERTENCIA") || secuencia[lineaActual].includes("ALERTA")) {
+                    p.style.color = "red";
+                    p.style.textShadow = "0 0 8px red";
+                }
+                terminal.appendChild(p);
+                lineaActual++;
+                const tiempoRandom = Math.floor(Math.random() * 400) + 200;
+                setTimeout(escribirConsola, tiempoRandom);
+            } else {
+                setTimeout(() => {
+                    terminal.style.display = 'none'; 
+                    cajaBan.style.display = 'block'; 
+                    cajaBan.classList.add('animacion-ban-aparicion');
+                    document.getElementById('musica').play();
+                    if (navigator.vibrate) {
+                        navigator.vibrate([300, 100, 300, 100, 800]);
+                    }
+                    activarCambioNumerosCaseID();
+                }, 600);
+            }
+        }
+        function activarCambioNumerosCaseID() {
+            caseIDInterval = setInterval(() => {
+                const randomNum = Math.floor(Math.random() * 100);
+                const formattedNum = randomNum.toString().padStart(2, '0');
+                dynamicID.textContent = formattedNum;
+                if (Math.random() > 0.9) { 
+                    dynamicID.style.color = Math.random() > 0.5 ? '#ff4444' : '#ff00aa'; 
+                } else {
+                    dynamicID.style.color = 'red';
+                }
+            }, 50); 
+        }
+        escribirConsola();
+    </script>
+</body>
+</html>
